@@ -1,20 +1,44 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Button } from 'react-native-elements';
-import { AuthContext } from '../context/AuthProvider';
-
-
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import ChatScreen from './ChatScreen';
+import SettingsScreen from './SettingScreen';
+import PdfScreen from './PdfScreen';
+import { AntDesign } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function FileScreen() {
-const {logout} = useContext(AuthContext);
+  const Tab = createBottomTabNavigator();
 
   return (
-    <View style={styles.container}>
-     <Text> الملفات</Text>
-     <Button title="Logout" onPress={logout} />
-  
-
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen
+          name='Pdf'
+          component={PdfScreen}
+          options={{
+            tabBarIcon: () => {
+             return <AntDesign name='pdffile1' size={24} color='black' />;
+            },
+          }}
+        />
+        <Tab.Screen name='Chat' component={ChatScreen}  options={{
+            tabBarIcon: () => {
+             return <Entypo name='chat' size={24} color='black' />;
+            },
+          
+        }}/>
+        <Tab.Screen name='Settings' component={SettingsScreen} options={{
+            tabBarIcon: () => {
+            return  <Ionicons name="settings-outline" size={24} color="black" />
+            },
+          
+        
+        }}/>
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
 

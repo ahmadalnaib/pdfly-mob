@@ -5,9 +5,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ChatScreen from './ChatScreen';
 import SettingsScreen from './SettingScreen';
 import PdfScreen from './PdfScreen';
-import { AntDesign } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
+import { AntDesign,Ionicons,Entypo } from '@expo/vector-icons';
+
 
 export default function FileScreen() {
   const Tab = createBottomTabNavigator();
@@ -19,20 +18,23 @@ export default function FileScreen() {
           name='Pdf'
           component={PdfScreen}
           options={{
-            tabBarIcon: () => {
-             return <AntDesign name='pdffile1' size={24} color='black' />;
+            tabBarIcon: (props) => {
+              const { color, size } = props;
+             return <AntDesign name='pdffile1' size={size} color={color} />;
             },
           }}
         />
         <Tab.Screen name='Chat' component={ChatScreen}  options={{
-            tabBarIcon: () => {
-             return <Entypo name='chat' size={24} color='black' />;
+            tabBarIcon: (props) => {
+              const { color, size } = props;
+             return <Entypo name='chat' size={size} color={color} />;
             },
           
         }}/>
         <Tab.Screen name='Settings' component={SettingsScreen} options={{
-            tabBarIcon: () => {
-            return  <Ionicons name="settings-outline" size={24} color="black" />
+            tabBarIcon: (props) => {
+              const { color, size } = props;
+            return  <Ionicons name="settings-outline" size={size} color={color} />
             },
           
         

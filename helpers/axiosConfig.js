@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const instnce=axios.create({
-    baseURL:'https://20fe-2003-d1-9f4b-8100-a084-3fcc-ceac-518c.ngrok-free.app/api/'
+    baseURL:'https://d7df-2003-d1-9f36-1900-b530-eaf4-57d9-5c49.ngrok-free.app/api/',
+  
 });
 export default instnce;

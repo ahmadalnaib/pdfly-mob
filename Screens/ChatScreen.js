@@ -20,7 +20,7 @@ import axiosConfig from '../helpers/axiosConfig';
 export default function ChatScreen() {
   const [messageText, setMessageText] = useState('');
   const [conversation, setConversation] = useState([]);
-  const [isSending, setIsSending] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     // initConversation();
@@ -33,25 +33,27 @@ export default function ChatScreen() {
       // Don't send empty messages
       return;
     }
-    setIsSending(true);
+
+    // Display user's question immediately
+    addUserMessage(messageText);
+    setConversation([...getConversation()]);
+    setMessageText('');
+    setIsLoading(true);
+
     try {
       const response = await axiosConfig.post('send-message', {
         message: messageText,
       });
 
-      // Update conversation history with user message
-      addUserMessage(messageText);
-      setMessageText('');
-      setConversation([...getConversation()]);
-
       // Update conversation history with assistant response
       addAssistantMessage(response.data.response);
+      setConversation([...getConversation()]);
     } catch (error) {
       // Handle error
       console.error('Error sending message:', error);
     } finally {
       // Update conversation state to trigger re-render
-      setIsSending(false);
+      setIsLoading(false);
       setConversation([...getConversation()]);
     }
   }, [messageText]);
@@ -84,11 +86,16 @@ export default function ChatScreen() {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.textbox}
-            placeholder='Type a message...'
+            placeholder={isLoading ? 'جاري المعالجة...' : 'اكتب رسالة...'}
             onChangeText={(text) => setMessageText(text)}
             value={messageText}
+            editable={!isLoading}
           />
-          <TouchableOpacity style={styles.sendBtn} onPress={sendMessage}>
+          <TouchableOpacity
+            style={styles.sendBtn}
+            onPress={sendMessage}
+            disabled={isLoading}
+          >
             <Feather name='send' size={18} color='white' />
           </TouchableOpacity>
         </View>
